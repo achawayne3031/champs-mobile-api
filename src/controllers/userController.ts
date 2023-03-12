@@ -70,8 +70,6 @@ const UserController = {
   remove: async (req: Request, res: Response) => {
     res.set('Access-Control-Allow-Origin', '*')
 
-    console.log(req.params, 'hello me ')
-
     try {
       let id = req.params.id
       const usersRepository = AppDataSource.getRepository(User)
