@@ -22,12 +22,13 @@ const UserController = {
     try {
       const token = req.header('Authorization')
       const usersRepository = AppDataSource.getRepository(User)
-      const users = await usersRepository.find()
+      const users = await usersRepository.find({
+        order: {
+          id: 'DESC',
+        },
+      })
 
-      return res
-        .status(200)
-
-        .send(successRes(200, true, 'All Users', users, '', []))
+      return res.send(successRes(200, true, 'All Users', users, '', []))
     } catch (error) {
       return res.status(400).send(errorRes(400, false, 'Server error', error))
     }
@@ -42,11 +43,7 @@ const UserController = {
     try {
       const { error } = validateRegisterData(reqBody)
       if (error) {
-        return res
-          .status(403)
-          .send(
-            errorRes(403, false, 'Validation error.', error.details[0].message),
-          )
+        return res.send(errorRes(403, false, error.details[0].message, []))
       }
 
       let email = reqBody.email
@@ -59,16 +56,14 @@ const UserController = {
       const createData = await userRepository.save(user)
 
       if (!createData) {
-        return res
-          .status(403)
-          .send(errorRes(403, false, 'User not created', []))
+        return res.send(errorRes(403, false, 'User not created', []))
       }
 
       return res.send(
         successRes(200, true, 'Registration was successful', [], '', []),
       )
     } catch (error) {
-      return res.status(400).send(errorRes(400, false, 'Server error', error))
+      return res.send(errorRes(400, false, 'Server error', error))
     }
   },
 
@@ -85,21 +80,19 @@ const UserController = {
       })
 
       if (userData == null) {
-        return res.status(403).send(errorRes(403, false, 'Invalid user', []))
+        return res.send(errorRes(403, false, 'Invalid user', []))
       }
 
       const removeData = await usersRepository.remove(userData)
       if (!removeData) {
-        return res
-          .status(403)
-          .send(errorRes(403, false, 'User not removed', []))
+        return res.send(errorRes(403, false, 'User not removed', []))
       }
 
       return res.send(
         successRes(200, true, 'User removed successfully', [], '', []),
       )
     } catch (error) {
-      return res.status(400).send(errorRes(400, false, 'Server error', error))
+      return res.send(errorRes(400, false, 'Server error', error))
     }
   },
 
@@ -112,11 +105,9 @@ const UserController = {
     try {
       const { error } = validateRegisterData(reqBody)
       if (error) {
-        return res
-          .status(403)
-          .send(
-            errorRes(403, false, 'Validation error.', error.details[0].message),
-          )
+        return res.send(
+          errorRes(403, false, 'Validation error.', error.details[0].message),
+        )
       }
 
       let id = req.params.id
@@ -126,7 +117,7 @@ const UserController = {
       })
 
       if (userExist == null) {
-        return res.status(403).send(errorRes(403, false, 'Invalid user', []))
+        return res.send(errorRes(403, false, 'Invalid user', []))
       }
 
       let email = reqBody.email
@@ -144,16 +135,14 @@ const UserController = {
         .execute()
 
       if (!updateData) {
-        return res
-          .status(403)
-          .send(errorRes(403, false, 'User not updated', []))
+        return res.send(errorRes(403, false, 'User not updated', []))
       }
 
       return res.send(
         successRes(200, true, 'User updated successfully', [], '', []),
       )
     } catch (error) {
-      return res.status(400).send(errorRes(400, false, 'Server error', error))
+      return res.send(errorRes(400, false, 'Server error', error))
     }
   },
 }

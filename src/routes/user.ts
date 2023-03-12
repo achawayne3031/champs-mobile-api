@@ -6,7 +6,9 @@ const router = express.Router()
 router.post('/create', UserController.create)
 router.get('/users', UserController.users)
 router.get('/users/:id', UserController.remove)
-// router.put('/users/:id', UserController.update)
+
+///router.get('/users/:id', UserController.remove)
+/// router.put('/users/:id', UserController.update)
 
 router.post('/users/:id', UserController.update)
 

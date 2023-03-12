@@ -21,30 +21,23 @@ app.use(
 )
 
 app.use(limiter)
-// app.use(express.json())
-// app.use(bodyParser.json())
 
-// app.use((req, res, next) => {
-//   res.header('Access-Control-Allow-Origin', '*')
-//   res.header('Access-Control-Allow-Credentials', 'true')
-//   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-//   res.header(
-//     'Access-Control-Allow-Headers',
-//     'Origin,X-Requested-With,Content-Type,x-auth,Accept,content-type,application/json',
-//   )
-//   next()
-// })
-// app.use(helmet())
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*')
+  res.header('Access-Control-Allow-Credentials', 'true')
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin,X-Requested-With,Content-Type,x-auth,Accept,content-type,application/json',
+  )
+  next()
+})
 
 // Parse incoming requests data
 app.use(express.urlencoded({ extended: true }))
 
 // app.use('./middleware/cors', cors);
 app.use('/api', user)
-
-app.get('/home', (req, res) => {
-  res.send('hdhdhhdddh')
-})
 
 process.on('uncaughtException', (error: Error) => {
   console.log(`Uncaught Exception: ${error}`)
