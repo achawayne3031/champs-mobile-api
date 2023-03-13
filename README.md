@@ -20,7 +20,7 @@ Open [http://localhost:4000/api](http://localhost:4000/api).
 
 ## ISSUES
 1. During the course of completing this test, i encountered some CORS issues on the two http request methods (PUT & DELETE)
-2. Due to this setbacks, i have to improvies in order to get the task done
+2. Due to this setbacks, i have to improvise in order to get the task done
 3. I made use of the two http request methods (GET & POST) which seemd to allow the integration locally, but no doubt all http request methods must be working fine been deployed on the live server
 
 
